@@ -1,26 +1,21 @@
 import re
 import AoCFramework as AoC
 
-def part_1():
+Line = AoC.Init("data/day3.txt", nolines=True)
+AoC.verify(190604937, 82857512)
+
+def part_1(data=Line) -> int:
     answer = 0
-    for match in re.findall(pattern, data):
+    for match in re.findall(r'mul\(\d+,\d+\)', data):
         nums = match[4:-1].split(',')
         answer += int(nums[0]) * int(nums[1])
     return answer
 
-def part_2():
+def part_2() -> int:
     answer = 0
-    for subl in data.split("do()"):
+    for subl in Line.split("do()"):
         sublines2 = subl.split("don't()")
-        for match in re.findall(pattern, sublines2[0]):
-            nums = match[4:-1].split(',')
-            answer += int(nums[0]) * int(nums[1])
+        answer += part_1(sublines2[0])
     return answer
 
-data = AoC.Init("data/day3.txt", nolines=True)
-pattern = r'mul\(\d+,\d+\)'
-AoC.verify(190604937, 82857512)
 AoC.run(part_1, part_2)
-
-
-
