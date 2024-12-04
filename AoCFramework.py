@@ -28,14 +28,28 @@ def read_file(filename, isnumlist, printme, nolines): # function to read in the 
         print("Last line:", Lines[-1], "\n")
     return Lines, numlines, linelen
 
-def Init(filename, isnumlist=False, printme=False, nolines=False, test=False):
+def pad_data(dat_tuple, pad, padchar):
+    if pad > 0:
+        (data, numlines, linelen) = dat_tuple
+        ret_data, padlinelen = [], linelen + 2 * pad
+        for i in range(pad):
+            ret_data.append(padchar * padlinelen)
+        for line in data:
+            ret_data.append(padchar * pad + line + padchar * pad)
+        for i in range(pad):
+            ret_data.append(padchar * padlinelen)
+        return ret_data, numlines, linelen
+    else:
+        return data, numlines, linelen
+
+def Init(filename, isnumlist=False, printme=False, nolines=False, test=False, pad=0, padchar=' '):
     global prog_start_time
     print("\n2024 Advent of Code - Framework running...\n")
     prog_start_time = time.perf_counter()
     if test:
-        return read_file('data/test.txt', isnumlist, printme, nolines)    
+        return pad_data(read_file('data/test.txt', isnumlist, printme, nolines), pad, padchar)
     elif filename:
-        return read_file(filename, isnumlist, printme, nolines)
+        return pad_data(read_file(filename, isnumlist, printme, nolines), pad, padchar)
     else:
         return None, 0
 
