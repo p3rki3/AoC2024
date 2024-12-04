@@ -5,7 +5,7 @@ def part_1():
     for x in range(3, numlines+3):
         for y in range(3, linelen+3):
             for dx, dy in dirns:
-                if Lines[y][x] == 'X' and Lines[y+dy][x+dx] == 'M' and Lines[y+dy*2][x+dx*2] == 'A' and Lines[y+dy*3][x+dx*3] == 'S':
+                if Lines[y][x] + Lines[y+dy][x+dx] + Lines[y+dy*2][x+dx*2] + Lines[y+dy*3][x+dx*3] == 'XMAS':
                     count += 1
     return count
 
@@ -14,7 +14,7 @@ def part_2():
     for x in range(3, numlines+3):
         for y in range(3, linelen+3):
             if Lines[y+1][x+1] == 'A':
-                if ((Lines[y][x] == 'M' and Lines[y+2][x+2] == "S") or (Lines[y][x] == 'S' and Lines[y+2][x+2] == "M")) and ((Lines[y+2][x] == 'M' and Lines[y][x+2] == "S") or (Lines[y+2][x] == 'S' and Lines[y][x+2] == "M")):
+                if ((Lines[y][x] + Lines[y+2][x+2]) in ['MS', 'SM']) and ((Lines[y][x+2] + Lines[y+2][x]) in ['MS', 'SM']):
                     count += 1                    
     return count
 
