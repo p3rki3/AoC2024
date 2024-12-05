@@ -40,7 +40,7 @@ def pad_data(dat_tuple, pad, padchar):
             ret_data.append(padchar * padlinelen)
         return ret_data, numlines, linelen
     else:
-        return data, numlines, linelen
+        return dat_tuple
 
 def Init(filename, isnumlist=False, printme=False, nolines=False, test=False, pad=0, padchar=' '):
     global prog_start_time
