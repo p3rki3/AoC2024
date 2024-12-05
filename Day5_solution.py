@@ -8,14 +8,13 @@ for line in AoC.Init("data/day5.txt")[0]:
     if '|' in line:
         before, after = line.split("|")
         Orders[before].append(after)
-    elif len(line) > 0:
-        pages = line.split(",")
-        topsort = TopologicalSorter({k:v for k, v in Orders.items() if k in pages})
-        ordered = list(topsort.static_order())[::-1]
-        mp = {n:i for i, n in enumerate(ordered)} 
-        newpages = sorted(pages, key=lambda n: mp[n])
-        mid_num = int(newpages[len(pages) // 2])
-        if newpages == pages:
+    elif ',' in line:
+        Pages = line.split(",")
+        topsort = TopologicalSorter({x:y for x, y in Orders.items() if x in Pages})
+        sortkey = {num:count for count, num in enumerate(list(topsort.static_order())[::-1]) if num in Pages}
+        sortedpages = sorted(Pages, key=lambda n: sortkey[n])
+        mid_num = int(sortedpages[len(Pages) // 2])
+        if sortedpages == Pages:
             part_1 += mid_num
         else:
             part_2 += mid_num
