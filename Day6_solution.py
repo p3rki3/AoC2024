@@ -1,43 +1,39 @@
 import AoCFramework as AoC
 
-def run(obstacle_x=None,obstacle_y=None):
-    x, y = start
-    dirptr, visited, visited2 = 0, set(),set()
-    visited.add((x, y))
-    visited2.add((x, y, dirptr))
+def part_1(block=None):
+    global Visited
+    r, c = start
+    count = 1
+    Visited2 = [(r, c, (-1, 0))]
+    Dirns, dirptr = ((-1, 0), (0, 1), (1, 0), (0, -1)), 0
     while True:
-        dx, dy = Dirns[dirptr]
-        if obstacle_x and x != obstacle_x and y != obstacle_y: 
-            k = Dist[y][x]
-            while k >= 1:
-                x += k * dx
-                y += k * dy
-                k = Dist[y][x]
-        nx, ny = x + dx, y + dy
-        if nx < 0 or nx >= numlines or ny < 0 or ny >= linelen:
-            return visited, False
-        if Lines[ny][nx] == "#" or (nx == obstacle_x and ny == obstacle_y):
-            dirptr = (dirptr + 1) % 4
+        dr, dc = Dirns[dirptr]
+        newr, newc = r + dr, c + dc
+        if newr < 0 or newc < 0 or newr >= numlines or newc >= linelen:
+            return count
+        elif Lines[newr][newc] == '#' or (newr, newc) == block:
+            dirptr += 1 if dirptr < 3 else -3
         else:
-            x, y = nx, ny
-            if not obstacle_x:visited.add((x,y))
-            if (x, y, dirptr) in visited2:
-                return visited, True
-            visited2.add((x, y, dirptr))
+            if (newr, newc) not in Visited and block is None:
+                Visited.append((newr, newc))
+                count += 1
+            elif block is not None:
+                if (newr, newc, Dirns[dirptr]) in Visited2:
+                    return 0
+                else:
+                    Visited2.append((newr, newc, Dirns[dirptr]))
+            r, c = newr, newc
+
+def part_2():
+    return sum(1 if part_1(pos) == 0 else 0 for pos in Visited)
 
 Lines, numlines, linelen = AoC.Init("data/day6.txt")
-Dirns = ((0, -1), (1, 0), (0, 1), (-1, 0))
-Dist = [[min(abs(x), abs(numlines - 1 - x), abs(y), abs(linelen - 1 - y)) for x in range(numlines)] for y in range(linelen)]
-for y in range(linelen):
-    for x in range(linelen):
-        if Lines[y][x] == "^": 
-            start = (x, y)
-        for k in range(linelen):
-            if Lines[y][k] == "#":
-                Dist[y][x] = min(Dist[y][x],abs(k-x)-1)
-            if Lines[k][x] == "#":
-                Dist[y][x] = min(Dist[y][x],abs(k-y)-1)
+Visited = []
+for r in range(numlines):
+    for c in range(linelen):
+        if Lines[r][c] == '^':
+            start = (r, c)
+            Visited = [(r, c)]
 
-Visited = run()[0]
 AoC.verify(4374, 1705)
-AoC.run(len(Visited), sum(run(x,y)[1] for x,y in Visited))
+AoC.run(part_1, part_2)
