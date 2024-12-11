@@ -1,12 +1,6 @@
 import AoCFramework as AoC
 import functools
-
-def has_even_digits(num: int) -> int:
-    count = 0 
-    while num != 0: 
-        num //= 10 
-        count += 1 
-    return count
+from math import log10
 
 @functools.lru_cache(None)
 def blink(num: int, blinksleft: int) -> int:
@@ -16,10 +10,10 @@ def blink(num: int, blinksleft: int) -> int:
         if num == 0:
             newcount = blink(1, blinksleft - 1)
         else:
-            count = has_even_digits(num)
+            count = int(log10(num) + 1)
             if count % 2 == 0:
                 factor = 10 ** (count // 2)
-                num1, num2 = num // factor, num % factor
+                num1, num2 = divmod(num, factor)
                 newcount = blink(num1, blinksleft - 1)
                 newcount += blink(num2, blinksleft - 1)
             else:
