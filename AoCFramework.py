@@ -83,3 +83,11 @@ def run(answer1, answer2=None):  # will accept a tuple, or either 1 or 2 answers
     prog2_end_time = time.perf_counter()
     print("Elapsed time:", prog2_end_time - prog1_end_time)
     print("Total elapsed time:", prog2_end_time - prog_start_time, "\n")
+
+def get_grid(Lines, isint=False):
+    grid = []
+    if isint is False:
+        grid = [[ch for ch in line] for line in Lines]
+    else:
+        grid =[[int(ch) for ch in line] for line in Lines]
+    return grid
