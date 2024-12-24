@@ -68,9 +68,3 @@ AoC.run(part_1, part_2)
 # Rule 3: Any znn that is NOT the result of an XOR operation should be highlighted for swapping
 # Rule 4: Except for rules already highlighted as needing a swap, the intermediate result of x00 AND y00 should be an operand of one of the OR rules
 # Rule 5: Except for rules already highlighted as needing a swap (rules 1-3), the intermediate result of x00 XOR y00 should be an operand of one of the AND rules
-
-# Rule 1  - gives z19
-# Rule 2b - gives djg, dsd, sbg
-# Rule 3  - gives z12 and z37
-# Rule 4  - gives us hjm
-# Rule 5  - gives us mcq
